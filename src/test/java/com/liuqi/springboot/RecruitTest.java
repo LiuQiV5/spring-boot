@@ -15,7 +15,9 @@ import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
@@ -45,7 +47,7 @@ public class RecruitTest {
 
     @Test
     public void test1() throws Exception {
-        mockMvc.perform(MockMvcRequestBuilders.get("/recruit/conf/plans/{pageno}/{pagesize}","1","2")
+        mockMvc.perform(MockMvcRequestBuilders.get("/recruit/conf/plans/{pageno}/{pagesize}", "1", "2")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -56,7 +58,7 @@ public class RecruitTest {
     @Test
     public void findInit() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/recruit/conf/find/init")
-                .param("schoolguid","1111")
+                .param("schoolguid", "1111")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
@@ -80,6 +82,7 @@ public class RecruitTest {
                 "    \"form\": [\n" +
                 "        {\n" +
                 "            \"id\": \"1\",\n" +
+                "            \"alias\": \"2019自主招生表单\",\n" +
                 "            \"modelpath\": \"sdfgd\",\n" +
                 "            \"indexpath\": \"sdfg\",\n" +
                 "            \"imgpath\": \"fghgf\",\n" +
@@ -113,10 +116,74 @@ public class RecruitTest {
                 "}";
         mockMvc.perform(
                 MockMvcRequestBuilders
-                .post("/recruit/conf/save/plan")
+                        .post("/recruit/conf/save/plan")
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .content(recuritplanvo)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(print()
+                );
+    }
+
+    @Test
+    public void findPlanById() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/recruit/conf/find/plan/{id}", "6")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(recuritplanvo)
                 .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(print());
+    }
+
+    @Test
+    public void findFormBySchoolguid() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/recruit/conf/find/forms")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andDo(print());
+    }
+
+    @Test
+    public void saveEditPlan() throws Exception {
+        String json = "{\n" +
+                "    \"planId\": \"6\",\n" +
+                "    \"guide\": \"英雄联盟\",\n" +
+                "    \"description\": \"召唤师峡谷\",\n" +
+                "    \"startDate\": \"2019-03-10\",\n" +
+                "    \"endDate\": \"2019-04-07\",\n" +
+                "    \"title\": \"江阴一中自主招生\",\n" +
+                "    \"form\": [\n" +
+                "        {\n" +
+                "            \"id\": \"1\",\n" +
+                "            \"alias\": \"2019江阴一中自主招生一招表单\",\n" +
+                "            \"indexpath\": \"sdfg\",\n" +
+                "            \"intent\": [\n" +
+                "                {\n" +
+                "                    \"comment\": \"理科班\"\n" +
+                "                },\n" +
+                "                {\n" +
+                "                    \"comment\": \"文科班\"\n" +
+                "                }\n" +
+                "            ]\n" +
+                "        },\n" +
+                "        {\n" +
+                "            \"id\": \"2\",\n" +
+                "            \"alias\": \"2019江阴一中自主招生二招表单\",\n" +
+                "            \"indexpath\": \"法国和\",\n" +
+                "            \"intent\": [\n" +
+                "                {\n" +
+                "                    \"comment\": \"艺术班\"\n" +
+                "                }\n" +
+                "            ]\n" +
+                "        }\n" +
+                "    ]\n" +
+                "}";
+        mockMvc.perform(
+                MockMvcRequestBuilders
+                        .post("/recruit/conf/save/plan")
+                        .contentType(MediaType.APPLICATION_JSON_UTF8)
+                        .content(json)
+                        .accept(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().isOk())
                 .andDo(print()
                 );

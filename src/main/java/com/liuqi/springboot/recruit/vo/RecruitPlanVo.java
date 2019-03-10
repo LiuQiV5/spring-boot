@@ -3,6 +3,7 @@ package com.liuqi.springboot.recruit.vo;
 import com.liuqi.springboot.entity.SchoolRecruitNotice;
 import com.liuqi.springboot.recruit.basevo.NoticeVo;
 import com.liuqi.springboot.recruit.basevo.PlanVo;
+import com.liuqi.springboot.recruit.basevo.UrlVo;
 import com.liuqi.springboot.recruit.entity.SchoolRecruitPlan;
 import com.liuqi.springboot.recruit.entity.SchoolRecruitPlanNotice;
 
@@ -30,8 +31,10 @@ public class RecruitPlanVo extends PlanVo {
 
     private List<NoticeVo> notice;
 
-    public RecruitPlanVo(Long planId, String title, Date startDate, Date endDate) {
-        super(planId, title, startDate, endDate);
+    private List<UrlVo> url;
+
+    public RecruitPlanVo(Long planId, String title, Date startDate, Date endDate,Date createDate){
+        super(planId, title, startDate, endDate,createDate);
     }
 
     public RecruitPlanVo() {
@@ -109,19 +112,12 @@ public class RecruitPlanVo extends PlanVo {
         this.notice = notice;
     }
 
-    @Override
-    public String toString() {
-        return "RecruitPlanVo{" +
-                "siteid=" + siteid +
-                ", schoolguid='" + schoolguid + '\'' +
-                ", guide='" + guide + '\'' +
-                ", description='" + description + '\'' +
-                ", note='" + note + '\'' +
-                ", examination='" + examination + '\'' +
-                ", schoolcode='" + schoolcode + '\'' +
-                ", form=" + form +
-                ", notice=" + notice +
-                '}';
+    public List<UrlVo> getUrl() {
+        return url;
+    }
+
+    public void setUrl(List<UrlVo> url) {
+        this.url = url;
     }
 
     public SchoolRecruitPlan planVOToPlanDO(RecruitPlanVo vo){
@@ -149,6 +145,7 @@ public class RecruitPlanVo extends PlanVo {
                 notice.setContent(noticeVo.getContent());
                 notice.setModelpath(noticeVo.getModelpath());
                 notice.setName(noticeVo.getName());
+                notice.setType(noticeVo.getType());
                 notice.setVisibility(noticeVo.getVisibility());
                 notice.setOperatedate(new Date());
                 notices.add(notice);

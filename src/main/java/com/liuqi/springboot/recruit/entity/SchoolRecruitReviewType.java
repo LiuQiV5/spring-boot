@@ -11,6 +11,7 @@ public class SchoolRecruitReviewType {
     private String name;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     public long getId() {
         return id;

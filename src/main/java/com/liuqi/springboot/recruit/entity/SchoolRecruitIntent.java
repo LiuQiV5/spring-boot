@@ -11,6 +11,7 @@ public class SchoolRecruitIntent {
     private String comment;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     public long getId() {
         return id;

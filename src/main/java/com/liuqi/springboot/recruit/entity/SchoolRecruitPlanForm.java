@@ -12,6 +12,7 @@ public class SchoolRecruitPlanForm {
     private String alias;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     public long getId() {
         return id;

@@ -11,4 +11,6 @@ public interface SchoolRecruitPlanDao extends JpaRepository<SchoolRecruitPlan,Lo
 
     @Query(value ="select new com.liuqi.springboot.recruit.basevo.PlanVo(s.id,s.title,s.startdate,s.enddate) from SchoolRecruitPlan s")
     Page<PlanVo> findAllPlanVo(Pageable qPageRequest);
+
+    SchoolRecruitPlan findById(long id);
 }

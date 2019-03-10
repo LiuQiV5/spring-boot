@@ -19,9 +19,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -227,5 +225,19 @@ public class MysqlTest {
            byte[] items = fildeName.getBytes();
            items[0] = (byte) ((char) items[0] - 'a' + 'A');
            return new String(items);
+    }
+
+    @Test
+    public void LongMap(){
+        Map<Long,String> map = new HashMap<>(10);
+        map.put(150L,"150");
+        map.put(160L,"160");
+        map.put(280L,"280");
+        map.put(98L,"98");
+        System.out.println(map.get(280L));
+        System.out.println(map.get(160L));
+        System.out.println(map.get(150L));
+        System.out.println(map.get(98L));
+
     }
 }

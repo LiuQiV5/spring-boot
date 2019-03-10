@@ -16,6 +16,17 @@ public class PlanVo {
     @JsonFormat(pattern="yyyy-MM-dd")
     private Date endDate;
 
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm")
+    private Date createDate;
+
+    public PlanVo(Long planId, String title, Date startDate, Date endDate,Date createDate) {
+        this.planId = planId;
+        this.title = title;
+        this.startDate = startDate;
+        this.endDate = endDate;
+        this.createDate = createDate;
+    }
+
     public PlanVo(Long planId, String title, Date startDate, Date endDate) {
         this.planId = planId;
         this.title = title;
@@ -52,6 +63,14 @@ public class PlanVo {
 
     public Date getEndDate() {
         return endDate;
+    }
+
+    public Date getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
 
     public void setEndDate(Date endDate) {

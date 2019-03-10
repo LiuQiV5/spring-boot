@@ -11,6 +11,7 @@ public class SchoolRecruitUrl {
     private String url;
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID")
     public long getId() {
         return id;

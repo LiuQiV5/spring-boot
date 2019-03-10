@@ -1,5 +1,6 @@
 package com.liuqi.springboot.recruit.controller;
 
+import com.liuqi.springboot.recruit.basevo.FormVo;
 import com.liuqi.springboot.recruit.service.SchoolRecruitFormService;
 import com.liuqi.springboot.recruit.service.SchoolRecruitInitService;
 import com.liuqi.springboot.recruit.service.SchoolRecruitPlanService;
@@ -9,6 +10,8 @@ import com.liuqi.springboot.recruit.vo.RecruitPlanVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.querydsl.QPageRequest;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -67,5 +70,25 @@ public class SchoolRecruitPlanConfController {
             responseEntity.setMsg("保存失败");
         }
         return responseEntity;
+    }
+
+    /**
+     * 根据id查询招生计划详细内容
+     * @param id
+     * @return
+     */
+    @GetMapping("/find/plan/{id}")
+    public ResponseEntity<RecruitPlanVo> findPlanById(@PathVariable("id") Long id){
+
+        return new ResponseEntity<>(schoolRecruitPlanService.findPlanById(id),"查询成功",ResponseEntity.SUCCESS);
+    }
+
+    /**
+     * 查询该校下的所有表单模板
+     * @return
+     */
+    @GetMapping("/find/forms")
+    public ResponseEntity<List<FormVo>> findForms(){
+        return new ResponseEntity<>(schoolRecruitFormService.findFormBySchoolguid("1111"),"查询成功",ResponseEntity.SUCCESS);
     }
 }

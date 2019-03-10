@@ -8,4 +8,6 @@ import java.util.List;
 public interface SchoolRecruitFormDao extends JpaRepository<SchoolRecruitForm,Long> {
 
     List<SchoolRecruitForm> findByInitid(long initid);
+
+    List<SchoolRecruitForm> findBySchoolguid(String schoolguid);
 }

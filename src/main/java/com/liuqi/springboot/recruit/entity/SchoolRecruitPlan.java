@@ -2,6 +2,7 @@ package com.liuqi.springboot.recruit.entity;
 
 import javax.persistence.*;
 import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.Objects;
 
 @Entity
@@ -18,6 +19,7 @@ public class SchoolRecruitPlan {
     private String note;
     private String examination;
     private String schoolcode;
+    private Timestamp createdate;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -130,6 +132,14 @@ public class SchoolRecruitPlan {
         this.schoolcode = schoolcode;
     }
 
+    public Timestamp getCreatedate() {
+        return createdate;
+    }
+
+    public void setCreatedate(Timestamp createdate) {
+        this.createdate = createdate;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -145,11 +155,12 @@ public class SchoolRecruitPlan {
                 Objects.equals(description, that.description) &&
                 Objects.equals(note, that.note) &&
                 Objects.equals(examination, that.examination) &&
+                Objects.equals(createdate, that.createdate) &&
                 Objects.equals(schoolcode, that.schoolcode);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, siteid, schoolguid, title, startdate, enddate, guide, description, note, examination, schoolcode);
+        return Objects.hash(id, siteid, schoolguid, title, startdate, enddate, guide, description, note, examination, schoolcode,createdate);
     }
 }

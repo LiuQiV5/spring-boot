@@ -16,8 +16,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
+import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
+import java.lang.reflect.Type;
 import java.sql.Date;
 import java.util.*;
 
@@ -239,5 +242,73 @@ public class MysqlTest {
         System.out.println(map.get(150L));
         System.out.println(map.get(98L));
 
+    }
+
+    @Test
+    public void generateModel() throws Exception{
+        Class<?> voClass = Class.forName("com.liuqi.springboot.recruit.vo.RecruitPlanVo");
+        parse(voClass.newInstance(),"","0");
+    }
+
+    public static void parse(Object o,String infotype,String index) throws Exception{
+        Class<? extends Object> objectClass = o.getClass();
+        Field[] fields = objectClass.getDeclaredFields();
+        List<Field> asList = Arrays.asList(fields);
+        ArrayList<Field> fieldList = new ArrayList<>(asList);
+        for (Field field : fieldList) {
+            if(List.class.isAssignableFrom(field.getType())) {
+
+                Type t = field.getGenericType();
+
+                if (t instanceof ParameterizedType) {
+
+                    ParameterizedType pt = (ParameterizedType) t;
+
+                    //得到对象list中实例的类型
+                    Class clz = (Class) pt.getActualTypeArguments()[0];
+
+                    parse(clz.newInstance(),field.getName(),index+fieldList.indexOf(field));
+                }
+            } else if ("GroupClass".equals(field.getType().getSimpleName())) {
+                PropertyDescriptor descriptor = new PropertyDescriptor(field.getName(), objectClass);
+                Method method = descriptor.getReadMethod();
+                Object object = method.invoke(o);
+                parse(object,field.getName(),index+"0");
+            } else{
+                field.setAccessible(true);
+                System.out.println(infotype+"===="+field.getName()+"===="+field.get(o)+"===="+index);
+            }
+        }
+    }
+
+    @Test
+    public void test111(){
+        Integer a=1;
+        Integer b=2;
+        Integer c=3;
+        Integer d=3;
+        Integer e=321;
+        Integer f=321;
+        Long g=3L;
+        System.out.println(c==d);
+        System.out.println(e==f);
+        System.out.println(c==(a+b));
+        System.out.println(c.equals(a+b));
+        System.out.println(g==(a+b));
+        System.out.println(g.equals(a+b));
+
+    }
+
+    @Test
+    public void test2222(){
+        Integer a1 = new Integer(12);
+        Integer a2 = new Integer(12);
+        Integer b1 = -129;
+        Integer b2 = -129;
+        Integer c1 = 128;
+        Integer c2 = -128;
+        System.out.println(a1 == a2);
+        System.out.println(b1==b2);
+        System.out.println(c1 == c2);
     }
 }
